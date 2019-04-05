@@ -1,0 +1,5 @@
+# Ignore files created at compile and run-time.
+
+*.o
+*.mod
+*.pyc
