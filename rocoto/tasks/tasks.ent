@@ -1,0 +1,2 @@
+<!ENTITY launch_tasks            SYSTEM   "launch.ent">
+<!ENTITY bufrprep_tasks          SYSTEM   "bufrprep.ent">

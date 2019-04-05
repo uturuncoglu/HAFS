@@ -1,0 +1,17 @@
+<!ENTITY SCHEDULER       "slurm">
+<!ENTITY QUEUE           "normal">
+<!ENTITY ACCOUNT         "hwrfv3">
+<!ENTITY SERIAL          "normal">
+<!ENTITY PE              "normal">
+<!ENTITY PAR_SHARED      "normal">
+<!ENTITY RESERVATION     "">
+<!ENTITY SERIAL_EXTRA    "<native>-p ujet</native>">
+<!ENTITY CORES_EXTRA     "<native>-p ujet</native>">
+<!ENTITY CORES_INIT      "<native>-p ujet</native>">
+<!ENTITY CORES_BDY       "<native>-p ujet</native>">
+<!ENTITY NODES_EXTRA     "<native>-p ujet</native>">
+<!ENTITY PURE_OPENMP     "<nodes>1:ppn=2:tpp=8</nodes><native>-p xjet</native>">
+<!ENTITY MPI_EXTRA       "">
+<!ENTITY SERVICE_QUEUE   "windfall">
+<!ENTITY SERVICE_EXTRA   "<native>-p ujet</native>">
+<!ENTITY ULIMIT          "">

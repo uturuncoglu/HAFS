@@ -1,0 +1,49 @@
+#!/bin/ksh
+ 
+set -x
+
+# HOMEdir set in qsub job
+
+. $HOMEdir/jobs/JFV3SAR_ENVIR
+. $WORKdir/${USER}/${CYCLE}/intercom/experiment.${CYCLE}
+
+#. /usrx/local/prod/lmod/lmod/init/ksh
+#module purge
+#module use ${HOMEgfs}/sorc/fv3gfs.fd/modulefiles/wcoss_dell_p3
+#module load fv3
+#module load prod_util/1.1.0
+#module list
+
+#######################################################################
+#
+# Execute the respective BUFR preparation scripts in accordance with
+# the user specifications; launch the following tasks:
+#
+# (1) Create PREFBUFR-formatted file for the NOAA/AOML/HRD TEMP-DROP 
+#     sonde observations.
+#
+# (2) Create PREPBUFR-formatted file for the NOAA/AOML/HRD G-IV 
+#     tail-Doppler radar (TDR) u- and v-wind observations.
+
+#######################################################################
+
+# Create local sub-directories.
+
+mkdir -p ${COMROOT}/bufrprep
+mkdir -p ${EXPTROOT}/bufrprep
+
+# Get processor id (pid).
+
+export pid=$$
+
+# Process NOAA/AOML/HRD dropsondes with drift calculations.
+
+if [ $PREPBUFRhsa = 1 ]; then
+    ${SCRIPTdir}/exfv3sar_bufrprep_hsa.sh
+fi # [ $PREPBUFRhsa = 1 ]
+
+# Process NOAA/AOML/HRD G-IV tail-Doppler radar (TDR) u- and v-winds.
+
+if [ $PREPBUFRgivtdruv = 1 ]; then
+    ${SCRIPTdir}/exfv3sar_bufrprep_givtdruv.sh
+fi # [ $PREPBUFRgivtdruv = 1 ]

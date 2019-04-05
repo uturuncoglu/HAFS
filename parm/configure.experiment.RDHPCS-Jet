@@ -1,0 +1,54 @@
+# Forecast type and duration information
+
+export FCSTtype=history
+export FCSTevent=0 # -- 0 = run regardless of whether TC event is in the basin
+                   # -- 1 = run for a specific TC event
+
+#----
+
+# HAFS input data pathes:
+
+# TC-vitals records path.
+
+export SYNDATpath=/mnt/lfs3/projects/hwrf-data/hwrf-input/SYNDAT-PLUS
+export SYNDAToffset_seconds=21600
+
+#----
+
+# PREPBUFR options; 0 = don't process; 1 = process
+
+export PREPBUFRhsa=1      # -- Process NOAA/AOML/HRD dropsondes and drift
+                          #    calculations.
+
+export PREPBUFRgivtdruv=0 # -- Process NOAA/AOML/HRD G-IV tail-Doppler
+                          #    radar (TDR) u- and v-winds.
+
+# PREBUFR HSA (e.g., TEMP-DROP) options
+
+export HSAdatapath=/mnt/lfs3/projects/hwrf-data/hwrf-input/EXPERIMENTAL/TEMPDROP/2017090100/${CYCLE}
+export HSAoffset_seconds=10800
+export HSAsrchstrs=UZNT,UZPN,UZPA
+export HSAprepbufrtbl_filepath=${PARMdir}/bufrprep/prepobs_prep.bufrtable
+export HSAbufrinfo_filepath=${PARMdir}/bufrprep/hsa.bufr_info.json
+export HSAobserr_filepath=${PARMdir}/bufrprep/hsa.obs_error
+
+# PREPBUFR G4TDRUV (e.g., G-IV tail-Dopper radar u- and v-winds)
+# options.
+
+export G4TDRUVdatapath=/Users/hwinter/noscrub/fv3sar_workflow/input-data/bufrprep/givtdruv
+export G4TDRUVbufrinfo_filepath=${PARMdir}/bufrprep/givtdruv.bufr_info.json
+export G4TDRUVprepbufrtbl_filepath=${PARMdir}/bufrprep/prepobs_prep.bufrtable
+
+#----
+
+# Workflow executable paths:
+
+# Define executable to create PREPBUFR-formatted files.
+
+export otb_exe=${EXECdir}/hafs_obstobufr.exe
+
+# Define executable to format TEMP-DROP sonde observation files.
+
+export tds_exe=${EXECdir}/hafs_tempdrop.exe
+
+

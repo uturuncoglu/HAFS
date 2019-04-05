@@ -1,0 +1,22 @@
+<task name="bufrprep_FV3SAR_HAFS" maxtries="99">
+
+      <command>bash &PRE; &PYTHON; bash ${JOBSdir}/JFV3SAR_BUFRPREP</command>
+      <jobname>fv3sar_hafs_bufrprep</jobname>
+      <queue>&QUEUE;</queue>
+      <account>&ACCOUNT;</account>
+      <cores>1</cores>
+      <walltime>00:59:00</walltime>
+      <memory>2GB</memory>
+
+      &SERIAL_EXTRA;
+
+      <envar>
+        <name>CYCLE</name>
+	<value><cyclestr>@Y@m@d@H</cyclestr></value>
+      </envar>
+
+      <dependency>
+          <taskdep task="launch_FV3SAR_HAFS"/>    
+      </dependency>
+
+</task>

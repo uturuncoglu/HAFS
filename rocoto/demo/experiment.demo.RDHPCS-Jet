@@ -1,0 +1,64 @@
+# EXPERIMENT CONFIGURATION VARIABLES:
+
+# Define top-level directory containing the configurations and scripts
+# for the experiment (e.g., the home-directory).
+
+export HOMEdir=/mnt/lfs3/projects/hwrfv3/Henry.Winterbottom/fv3sar_workflow
+
+# Define the top-level directory within which to conduct the
+# experiment (e.g., the work directory/space); beneath this directory,
+# a subdirectory for the user specified experiment name (see EXPTname)
+# and all forecast cycles will be created.
+
+export WORKdir=/mnt/lfs1/projects/hwrfv3
+
+# Define a unique name for the experiment.
+
+export EXPTname=HAFS_DEMO
+
+# Define the forecast type; options are 'history' or 'realtime'.
+
+export FCSTtype=history
+
+# Define the identifier for the respective tropical cyclone (TC) to
+# forecast; the following options are permitted:
+
+# (1) If this variable is not defined (e.g., remains commented out),
+#     the system will attempt to forecast for all TCs within the
+#     respective forecast cycle's TC-vitals file.
+
+# (2) If the user wishes to forecast a specific TC event, the format
+#     of this variable is <basin numerical identifier><basin
+#     identifier> (e.g., 11L for TC Irma in the North Atlantic Ocean
+#     basin); the following is a list of identifiers for the
+#     respective global basins:
+
+#     L: North Atlantic
+#     E: North East Pacific
+#     C: North Central Pacific
+#     W: North West Pacific
+#     B: Bay of Bengal (North Indian Ocean)
+#     A: Arabian Sea (North Indian Ocean)
+#     Q: South Atlantic
+#     P: South Pacific
+#     S: South Indian Ocean
+
+# Reference: https://www.emc.ncep.noaa.gov/HWRF/tcvitals-draft.html
+
+#export TCID=11L
+
+# Define the first forecast cycle timestamp; the format is (assuming a
+# UNIX convention) %Y%m%d%H%M.
+
+export CYCLEstart=201709100000
+
+# Define the last forecast cycle timestamp; the format is (assuming a
+# UNIX convention) %Y%m%d%H%M; this variable may remain commented out
+# which implies that the system is to run for a single cycle.
+
+export CYCLEstop=201709100000
+
+# Define the interval for which to launch successive forecast cycles;
+# format (assuming UNIX convention) is %H:%M:%S.
+
+export CYCLEinterval=06:00:00
