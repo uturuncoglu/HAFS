@@ -1,8 +1,0 @@
-# General path information 
-
-export EXECdir=$HOMEdir/exec
-export JOBSdir=$HOMEdir/jobs
-export PARMdir=$HOMEdir/parm
-export ROCOTOdir=$HOMEdir/rocoto
-export SCRIPTdir=$HOMEdir/scripts
-export USHdir=$HOMEdir/ush
