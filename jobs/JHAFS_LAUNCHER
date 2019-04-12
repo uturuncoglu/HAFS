@@ -1,0 +1,34 @@
+#!/bin/ksh
+ 
+set -x -e
+
+# HOMEdir defined within environment.
+
+. ${HOMEdir}/jobs/JHAFS_ENVIR
+
+#######################################################################
+#
+# Prepare for the user experiment; launch the following tasks:
+#
+# (1) Build the top-level directory paths for the user experiment and
+#     define the forecast cycle attributes and experiment
+#     configuration.  
+#
+# (2) Prepare the TC-vitals records for any and all events to be
+#     simulated in accordance with the user specifications.
+#
+#######################################################################
+
+# Get processor id (pid).
+
+export pid=$$
+
+# Build the top-level directory paths for the user experiment and
+# define the forecast cycle attributes and experiment configuration.
+
+${SCRIPTdir}/exhafs_launcher_setup.sh
+
+# Process the TC-vitals records in accordance with the events to be
+# simulated in accordance with the user specifications.
+
+${SCRIPTdir}/exhafs_launcher_tcvitals.sh
