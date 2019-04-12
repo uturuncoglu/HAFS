@@ -45,10 +45,10 @@ export G4TDRUVprepbufrtbl_filepath=${PARMdir}/bufrprep/prepobs_prep.bufrtable
 
 # Define executable to create PREPBUFR-formatted files.
 
-export otb_exe=${EXECdir}/hafs_obstobufr.exe
+export otb_exe=${EXECdir}/hafs_obstobufr.x
 
 # Define executable to format TEMP-DROP sonde observation files.
 
-export tds_exe=${EXECdir}/hafs_tempdrop.exe
+export tds_exe=${EXECdir}/hafs_tempdrop.x
 
 
