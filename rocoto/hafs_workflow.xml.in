@@ -328,6 +328,27 @@
     </dependency>
   </task>
 
+  <task name="graphics" maxtries="&MAX_TRIES;">
+    <command>&JOBhafs;/JHAFS_GRAPHICS</command>
+    <jobname>hafs_graphics_&SID;_<cyclestr>@Y@m@d@H</cyclestr></jobname>
+    <join><cyclestr>&WORKhafs;/hafs_graphics.log</cyclestr></join>
+    <account>&ACCOUNT;</account>
+    &RESERVATION;
+    <queue>&QUEUE_PE;</queue>
+    &PE_EXTRA;
+    &GRAPHICS_RESOURCES;
+    &ENV_VARS;
+
+    <dependency>
+      <!-- Start the product if the product is running or if it has
+           already completed. -->
+      <or>
+        <taskdep task="product" state="RUNNING"/>
+        <taskdep task="product"/>
+      </or>
+    </dependency>
+  </task>
+
   <task name="archive_disk" maxtries="&MAX_TRIES_TRANSFER;">
     <command>&PRE; &EXhafs;/exhafs_archive.py</command>
     <jobname>hafs_archive_disk_&SID;_<cyclestr>@Y@m@d@H</cyclestr></jobname>
