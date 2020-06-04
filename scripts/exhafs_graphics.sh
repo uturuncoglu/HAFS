@@ -30,102 +30,91 @@ synop_gridspecs=${synop_gridspecs:-"latlon 246.6:4112:0.025 -2.4:1976:0.025"}
 trker_gridspecs=${trker_gridspecs:-"latlon 246.6:4112:0.025 -2.4:1976:0.025"}
 out_prefix=${out_prefix:-$(echo "${STORM}${STORMID}.${YMDH}" | tr '[A-Z]' '[a-z]')}
 
-DATA=${DATA:-${WORKhafs}/graphics}
+# GPLOT-specific variables (might go elsewhere)
+GPLOT_PARSE="${GPLOThafs}/shell/parse_atcf.sh"
+GPLOT_WRAPPER="${GPLOThafs}/shell/GPLOT_wrapper.sh"
+GPLOT_ARCHIVE="${GPLOThafs}/archive/GPLOT_tarballer.sh"
 
-IFHR=0
-FHR=0
-FHR2=$( printf "%02d" "$FHR" )
-FHR3=$( printf "%03d" "$FHR" )
+# Setup the working directory and change into it
+DATA=${DATA:-${WORKhafs}/graphics}
+mkdir -p ${DATA}
+cd ${DATA}
+
+# Copy and edit the GPLOT namelist
+NML=${DATA}/namelist.master.${SUBEXPT}
+if [ ! -f ${NML} ];
+then
+    cp -p ${GPLOThafs}/nmlist/namelist.master.HAFS_Default ${NML}
+fi
+sed -i 's/^EXPT =.*/EXPT = '"${SUBEXPT}"'/g' ${NML}
+sed -i 's/^IDATE =.*/IDATE = '"${CDATE}"'/g' ${NML}
+sed -i 's/^INIT_HR =.*/INIT_HR = 0/g' ${NML}
+sed -i 's/^FNL_HR =.*/FNL_HR = '"${NHRS}"'/g' ${NML}
+sed -i 's@^IDIR =.*@IDIR = '"${COMhafs}"'@g' ${NML}
+sed -i 's@^ODIR =.*@ODIR = '"${DATA}"'@g' ${NML}
+sed -i 's@^ATCF1_DIR =.*@ATCF1_DIR = '"${COMhafs}"'@g' ${NML}
+sed -i 's@^ATCF2_DIR =.*@ATCF2_DIR = '"${COMhafs}"'@g' ${NML}
+sed -i 's@^ADECK_DIR =.*@ADECK_DIR = '"${ADECKhafs}"'@g' ${NML}
+sed -i 's@^BDECK_DIR =.*@BDECK_DIR = '"${BDECKhafs}"'@g' ${NML}
+sed -i 's/^SYS_ENV =.*/SYS_ENV = '"$( echo ${machine} | tr "[a-z]" "[A-Z]")"'/g' ${NML}
+sed -i 's/^BATCH_MODE =.*/BATCH_MODE = Background/g' ${NML}
+
+# Initialize ALL_COMPLETE as false 
+ALL_COMPLETE=0
 
 # Loop for forecast hours
-while [ $FHR -le $NHRS ];
+while [[ ${ALL_COMPLETE} -eq 0 ]];
 do
+    echo "Top of loop"
 
-cd ${DATA}
+    # Find and parse the ATCF file into an individual file for each storm
+    # Need to know the bdeck staging directory. Could use GJA's.
+    ${GPLOT_PARSE} HAFS ${COMhafs} ${COMhafs} ${BDECKhafs} ${SYNDAThafs} 4
+    
+    # Check the status files for all GPLOT components.
+    GPLOT_STATUS=( `find ${DATA}/. -name "status.*" -exec cat {} \;` )
+    ALL_COMPLETE=1
+    if [ ! -z "${GPLOT_STATUS[*]}" ];
+    then
+        for GS in ${GPLOT_STATUS[@]};
+        do
+            if [ ${GS} != "complete" ]; then
+                ALL_COMPLETE=0
+            fi
+        done
+    else
+        ALL_COMPLETE=0
+    fi
 
-NEWDATE=`${NDATE} +${FHR3} $CDATE`
-YYYY=`echo $NEWDATE | cut -c1-4`
-MM=`echo $NEWDATE | cut -c5-6`
-DD=`echo $NEWDATE | cut -c7-8`
-HH=`echo $NEWDATE | cut -c9-10`
+    # If all are complete, then exit with success!
+    # If not, submit the GPLOT wrapper again.
+    if [[ ${ALL_COMPLETE} -eq 1 ]];
+    then
+        echo "All status files were found to read 'complete.' That means we're done!"
+        break
+    else
+        echo "Waiting for all status files to read 'complete'. Trying again..."
+    fi
+    
+    # Call the GPLOT wrapper
+    ${GPLOT_WRAPPER} ${NML} &
+    
+    # Now sleep for 15 min
+    echo "sleeping 900 seconds..."
+    sleep 900s
 
-FMIN=$(( ${FHR}*60 )) 
-minstr=$( printf "%5.5d" "$FMIN" )
-
-synop_grb2graphics=hafsprs.${CDATE}.f${FHR3}.grb2
-synop_grb2file=${out_prefix}.hafsprs.synoptic.0p03.f${FHR3}.grb2
-synop_grb2indx=${out_prefix}.hafsprs.synoptic.0p03.f${FHR3}.grb2.idx
-gmodname=hafs
-rundescr=trak
-atcfdescr=storm
-hafstrk_grb2file=${gmodname}.${rundescr}.${atcfdescr}.${CDATE}.f${minstr}
-hafstrk_grb2indx=${gmodname}.${rundescr}.${atcfdescr}.${CDATE}.f${minstr}.ix
-
-# Check if graphics has processed this forecast hour previously
-if [ -s ${INPdir}/graphicsf${FHR3} ] && [ -s ${COMhafs}/${synop_grb2file} ] && [ -s ${COMhafs}/${synop_grb2indx} ] ; then
-
-echo "graphics message ${INPdir}/graphicsf${FHR3} exist"
-echo "product ${COMhafs}/${synop_grb2file} exist"
-echo "product ${COMhafs}/${synop_grb2indx} exist"
-echo "skip graphics for forecast hour ${FHR3} valid at ${NEWDATE}"
-
-# Otherwise run graphics for this forecast hour
-else
-
-# Wait for model output
-n=1
-while [ $n -le 600 ]
-do
-  if [ ! -s ${INPdir}/logf${FHR3} ] || [ ! -s ${INPdir}/dynf${FHR3}.nc ] || [ ! -s ${INPdir}/phyf${FHR3}.nc ]; then
-    echo "${INPdir}/logf${FHR3} not ready, sleep 60"
-    sleep 60s
-  else
-    echo "${INPdir}/logf${FHR3}, ${INPdir}/dynf${FHR3}.nc ${INPdir}/phyf${FHR3}.nc ready, do graphics"
-    sleep 3s
-    break
-  fi
-  n=$(( n+1 ))
 done
 
-# Create the graphics working dir for the time level
-DATA_graphics=${DATA}/graphics_${NEWDATE}
-rm -rf ${DATA_graphics}
-mkdir -p ${DATA_graphics}
-cd ${DATA_graphics}
+# Now that everything is complete, move all graphics to the $COMhafs directory.
+cp -rp ${DATA} ${COMhafs}/graphics
 
-# Deliver to COMhafs
-if [ $SENDCOM = YES ]; then
-  mv ${synop_grb2file} ${COMhafs}/
-  mv ${synop_grb2indx} ${COMhafs}/
+# Zip up and move contents to the tape archive. Local scrubbing optional.
+# This is experimental and turned OFF for now.
+GPLOT_DOARCH="NO"
+if [ "${GPLOT_DOARCH}" == "YES" ];
+then
+    ${GPLOT_ARCHIVE} ${SUBEXPT} ${DATA} /5year/HFIP/hur-aoml/Ghassan.Alaka/GPLOT ${CDATE} NO NO
 fi
-
-# Check if the products are missing
-if [ ! -s ${intercom}/${hafstrk_grb2file} ]; then
-  echo "ERROR: intercom product ${intercom}/${hafstrk_grb2file} not exist"
-  echo "ERROR: graphics for hour ${FHR3} valid at ${NEWDATE} exitting"
-  exit 1
-fi
-if [ ! -s ${intercom}/${hafstrk_grb2indx} ] ; then
-  echo "ERROR: intercom product ${intercom}/${hafstrk_grb2indx} not exist"
-  echo "ERROR: graphics for hour ${FHR3} valid at ${NEWDATE} exitting"
-  exit 1
-fi
-
-# Write out the graphicsdone message file
-echo 'done' > ${INPdir}/graphicsf${FHR3}
-
-cd ${DATA}
-
-fi
-# End if for checking if graphics has processed this forecast hour previously
-
-IFHR=`expr $IFHR + 1`
-FHR=`expr $FHR + $NOUTHRS`
-FHR2=$( printf "%02d" "$FHR" )
-FHR3=$( printf "%03d" "$FHR" )
-
-done
-# End loop for forecast hours
 
 echo "graphics job done"
 
