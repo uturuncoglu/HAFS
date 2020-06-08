@@ -20,8 +20,8 @@
 	branch = support/HAFS
 [submodule "sorc/hafs_gsi.fd"]
 	path = sorc/hafs_gsi.fd
-	url = gerrit:ProdGSI
-	branch = HAFS
+	url = https://github.com/hafs-community/GSI.git
+	branch = support/HAFS
 [submodule "GPLOT"]
 	path = sorc/hafs_graphics.fd/hrd_gplot
 	url = https://github.com/ghassan-alaka/GPLOT.git
