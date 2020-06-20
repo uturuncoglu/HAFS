@@ -146,6 +146,8 @@ cp ${PARMforecast}/input.nml.tmp .
 cp ${PARMforecast}/input_nest02.nml.tmp .
 cp ${PARMforecast}/model_configure.tmp .
 cp ${PARMforecast}/nems.configure .
+#zhang
+cp /work/noaa/hwrf/manzhang/HWRFphys_input/* .
 
 ccpp_suite_glob_xml="${HOMEhafs}/sorc/hafs_forecast.fd/FV3/ccpp/suites/suite_${ccpp_suite_glob}.xml"
 cp ${ccpp_suite_glob_xml} .
@@ -234,6 +236,8 @@ cp ${PARMforecast}/field_table .
 cp ${PARMforecast}/input.nml.tmp .
 cp ${PARMforecast}/model_configure.tmp .
 cp ${PARMforecast}/nems.configure .
+#zhang
+cp /work/noaa/hwrf/manzhang/HWRFphys_input/* .
 
 ccpp_suite_regional_xml="${HOMEhafs}/sorc/hafs_forecast.fd/FV3/ccpp/suites/suite_${ccpp_suite_regional}.xml"
 cp ${ccpp_suite_regional_xml} .
