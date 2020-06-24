@@ -370,6 +370,7 @@
         <taskdep task="forecast"/>
         <taskdep task="post"/>
         <taskdep task="product"/>
+        <taskdep task="graphics"/>
       </and>
     </dependency>
   </task>
@@ -395,6 +396,7 @@
         <taskdep task="forecast"/>
         <taskdep task="post"/>
         <taskdep task="product"/>
+        <taskdep task="graphics"/>
         <taskdep task="archive_disk"/>
       </and>
     </dependency>
