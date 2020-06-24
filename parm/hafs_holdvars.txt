@@ -125,3 +125,7 @@ if [[ "$RUN_ENVIR" != "NCO" && "$RUN_ENVIR" != "nco" ]] ; then
     export CDSCRUB={CDSCRUB}
     export RUNhafs={RUNhafs}
 fi
+
+export SYNDAThafs={syndat}
+export ADECKhafs={ADECKhafs}
+export BDECKhafs={BDECKhafs}
