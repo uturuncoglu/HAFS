@@ -36,12 +36,12 @@ GPLOT_WRAPPER="${GPLOThafs}/shell/GPLOT_wrapper.sh"
 GPLOT_ARCHIVE="${GPLOThafs}/archive/GPLOT_tarballer.sh"
 
 # Setup the working directory and change into it
-DATA=${DATA:-${WORKhafs}/graphics}
-mkdir -p ${DATA}
-cd ${DATA}
+DATADIR=${DATADIR:-${COMhafs}/graphics}
+mkdir -p ${DATADIR}
+cd ${DATADIR}
 
 # Copy and edit the GPLOT namelist
-NML=${DATA}/namelist.master.${SUBEXPT}
+NML=${DATADIR}/namelist.master.${SUBEXPT}
 if [ ! -f ${NML} ];
 then
     cp -p ${GPLOThafs}/nmlist/namelist.master.HAFS_Default ${NML}
