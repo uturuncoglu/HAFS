@@ -41,13 +41,13 @@
 /
 
  &fv_core_nml
-       !layout   = 64,30
-       !layout   = 40,30
+       !layout   =  12,12
+       !layout   =  8,8
        layout   = _layoutx_,_layouty_
        io_layout = 1,1
        npx = _npx_
        npy = _npy_
-       ntiles   = 1
+       ntiles   = 6
        npz    = _npz_
        !grid_type = -1
        make_nh = .F.
@@ -58,21 +58,21 @@
        nudge_qv = .F.
        nudge_dz = .F.
        tau = 5.
-       rf_cutoff = 50.e2
-       d2_bg_k1 = 0.20
-       d2_bg_k2 = 0.15
-       kord_tm = -11
-       kord_mt =  11
-       kord_wz =  11
-       kord_tr =  11
+       rf_cutoff = 30.e2
+       d2_bg_k1 = 0.16
+       d2_bg_k2 = 0.05
+       kord_tm = -9
+       kord_mt =  9
+       kord_wz =  9
+       kord_tr =  9
        hydrostatic = .F.
        phys_hydrostatic = .F.
        use_hydro_pressure = .F.
        beta = 0.
        a_imp = 1.
        p_fac = 0.1
-       k_split  = 4
-       n_split  = 5
+       k_split  = 1
+       n_split  = 7
        nwat = 4
        na_init = 1
        d_ext = 0.0
@@ -83,7 +83,7 @@
        dddmp = 0.1
        d4_bg = 0.15
        vtdm4 = 0.04
-       delt_max = 0.008
+       delt_max = 0.002
        ke_bg = 0.
        do_vort_damp = .T.
        external_ic = .T.
@@ -93,13 +93,13 @@
        mountain = .F.
        ncep_ic = .F.
        d_con = 1.0
-       hord_mt = 6
-       hord_vt = 6
-       hord_tm = 6
-       hord_dp = -6
+       hord_mt = 5
+       hord_vt = 5
+       hord_tm = 5
+       hord_dp = -5
        hord_tr = 8
        adjust_dry_mass = .F.
-       consv_te = 0.
+       consv_te = 1.
        consv_am = .F.
        fill = .T.
        dwind_2d = .F.
@@ -112,17 +112,13 @@
        res_latlon_dynamics = "fv3_increment.nc"
        write_3d_diags = .true.
 
-       nested = .true.
-       twowaynest = .true.
-       parent_grid_num = 1
-       parent_tile = 6
-       refinement = _refinement_
-       ioffset = _ioffset_
-       joffset = _joffset_
-       nestupdate = 7
+       do_schmidt = .true.
+       target_lat = _target_lat_
+       target_lon = _target_lon_
+       stretch_fac = _stretch_fac_
 
        full_zs_filter = .F. !unreleased feature
-       n_zs_filter = 1
+       n_zs_filter = 0
        nord_zs_filter = 4
 /
 
@@ -162,7 +158,7 @@
        pre_rad        = .false.
        ncld           = 5
        imp_physics    = 15         ! F-A MP scheme 
-       RHGRD          = 1.0       ! F-A
+       RHGRD          = 0.975      ! F-A
        spec_adv       = .true.     ! F-A
        icloud         = 3          ! Thompson cloud fraction
        iovr_lw        = 4          ! HWRF RRTMG
@@ -172,7 +168,7 @@
        asolfac_deep   = 0.89       ! HWRF SASdeep; GFS SAS:0.958
        asolfac_shal   = 0.89       ! HWRF SASdeep; GFS SAS:0.958
        hurr_pbl       = .T.        ! HWRF moninedmf
-       moninq_fac     = -1.0       !HWRF moninedmf
+       moninq_fac     = -1.0       ! HWRF moninedmf
        pdfcld         = .false.
        fhswr          = 3600.
        fhlwr          = 3600.
@@ -186,7 +182,7 @@
        lwhtr          = .true.
        swhtr          = .true.
        cnvgwd         = .true.
-       shal_cnv       = .true. !Shallow convection
+       shal_cnv       = .true. !  HWRF SAS Shallow convection
        cal_pre        = .false.
        redrag         = .true.
        dspheat        = .true.
@@ -197,12 +193,12 @@
        cnvcld         = .true.
        imfshalcnv     = 2
        imfdeepcnv     = 2
-       cdmbgwd        = 3.5, 0.01
-       sfc_z0_type    = 4
+       cdmbgwd        = 3.5, 0.25       ! NCEP default
+       sfc_z0_type    = 4      !HWRF 
        prslrd0        = 0.
        ivegsrc        = 1
        isot           = 1
-       lsm            = 4
+       lsm            = 4      !HWRF
        iopt_dveg      = 2
        iopt_crs       = 1
        iopt_btr       = 1
@@ -236,7 +232,7 @@
 /
 
  &gfdl_cloud_microphysics_nml
-       sedi_transport = .false.
+       sedi_transport = .true.
        do_sedi_heat = .false.
        rad_snow = .true.
        rad_graupel = .true.
