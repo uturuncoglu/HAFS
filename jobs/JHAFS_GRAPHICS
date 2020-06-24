@@ -9,9 +9,9 @@ HOLDVARS=${HOLDVARS:-/can/not/find/storm1.holdvars.txt}
 source ${HOLDVARS}
 
 # GJA temporary variables
-export ADECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/adeck/NHC"
-export BDECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck"
-export SYNDAThafs="/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS"
+#export ADECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/adeck/NHC"
+#export BDECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck"
+#export SYNDAThafs="/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS"
 
 export EXPT=${EXPT:-HAFS}
 export SUBEXPT=${SUBEXPT:-${EXPT}}
