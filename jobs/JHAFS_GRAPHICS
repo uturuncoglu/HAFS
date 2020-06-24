@@ -9,8 +9,6 @@ HOLDVARS=${HOLDVARS:-/can/not/find/storm1.holdvars.txt}
 source ${HOLDVARS}
 
 # GJA temporary variables
-export GPLOT_DIR="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/HAFS_hrd_graphics/sorc/hafs_graphics.fd/hrd_gplot"
-export GPLOThafs="${GPLOT_DIR}"
 export ADECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/adeck/NHC"
 export BDECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck"
 export SYNDAThafs="/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS"
@@ -44,6 +42,8 @@ export USHhafs=${USHhafs:-${HOMEhafs}/ush}
 export PARMhafs=${PARMhafs:-${HOMEhafs}/parm}
 export EXEChafs=${EXEChafs:-${HOMEhafs}/exec}
 export FIXhafs=${FIXhafs:-${HOMEhafs}/fix}
+export GPLOThafs=${GPLOThafs:-${HOMEhafs}/sorc/hafs_graphics.fd/hrd_gplot}
+export GPLOT_DIR=${GPLOThafs}
 
 export HOMEgfs=${HOMEgfs:-/gpfs/hps3/emc/hwrf/noscrub/${USER}/save/HAFS/fv3gfs}
 export EXECgfs=${EXECgfs:-${HOMEgfs}/exec}
@@ -57,7 +57,7 @@ export machine=${WHERE_AM_I:-wcoss_cray} # platforms: wcoss_cray, wcoss_dell_p3,
 #export RUN_ENVIR=${RUN_ENVIR:-prod}
 export RUN_ENVIR=${envir:-prod}
 if [ "$RUN_ENVIR" = prod ]; then
-   source ${HOMEhafs}/sorc/hafs_graphics.fd/hrd_gplot/modulefiles/modulefile.gplot.${machine}
+  source ${GPLOThafs}/modulefiles/modulefile.gplot.${machine}
   module list
 fi
 
