@@ -4,23 +4,23 @@ set -xe
 
 date
 #GJA: temporarily suspend these
-#source ${USHhafs}/hafs_pre_job.sh.inc
-#HOLDVARS=${HOLDVARS:-/can/not/find/storm1.holdvars.txt}
-#source ${HOLDVARS}
+source ${USHhafs}/hafs_pre_job.sh.inc
+HOLDVARS=${HOLDVARS:-/can/not/find/storm1.holdvars.txt}
+source ${HOLDVARS}
 
 # GJA temporary variables
-export SUBEXPT="HAFS_Test"
-export CDATE="2017090506"
-export NHRS=174
-export WHERE_AM_I="jet"
+#export SUBEXPT="HAFS_Test"
+#export CDATE="2017090506"
+#export NHRS=174
+#export WHERE_AM_I="jet"
 export GPLOT_DIR="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/HAFS_hrd_graphics/sorc/hafs_graphics.fd/hrd_gplot"
 export GPLOThafs="${GPLOT_DIR}"
 export ADECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/adeck/NHC"
 export BDECKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck"
 export SYNDAThafs="/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS"
-export HOMEhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/HAFS_hrd_graphics"
-export WORKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/SCRATCH/hafstmp/HAFS_jet/2017090506/00L"
-export COMhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/SCRATCH/hafstmp/HAFS_jet/com/2017090506/00L"
+#export HOMEhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/HAFS_hrd_graphics"
+#export WORKhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/SCRATCH/hafstmp/HAFS_jet/2017090506/00L"
+#export COMhafs="/lfs1/HFIP/hur-aoml/Ghassan.Alaka/SCRATCH/hafstmp/HAFS_jet/com/2017090506/00L"
 
 export EXPT=${EXPT:-HAFS}
 export SUBEXPT=${SUBEXPT:-${EXPT}}
