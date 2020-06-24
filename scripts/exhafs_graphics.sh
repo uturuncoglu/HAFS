@@ -36,12 +36,18 @@ GPLOT_WRAPPER="${GPLOThafs}/shell/GPLOT_wrapper.sh"
 GPLOT_ARCHIVE="${GPLOThafs}/archive/GPLOT_tarballer.sh"
 
 # Setup the working directory and change into it
-DATADIR=${DATADIR:-${COMhafs}/graphics}
-mkdir -p ${DATADIR}
-cd ${DATADIR}
+COMgplot=${COMhafs:-${COMhafs}/graphics}
+WORKgplot=${WORKgplot:-${WORKhafs}/graphics}
+if [ ! -d ${COMgplot}]; then
+    mkdir -p ${COMgplot}
+fi
+if [ ! -d ${WORKgplot}]; then
+    mkdir -p ${WORKgplot}
+fi
+cd ${WORKgplot}
 
 # Copy and edit the GPLOT namelist
-NML=${DATADIR}/namelist.master.${SUBEXPT}
+NML=${WORKgplot}/namelist.master.${SUBEXPT}
 if [ ! -f ${NML} ];
 then
     cp -p ${GPLOThafs}/nmlist/namelist.master.HAFS_Default ${NML}
@@ -69,7 +75,7 @@ do
 
     # Find and parse the ATCF file into an individual file for each storm
     # Need to know the bdeck staging directory. Could use GJA's.
-    ${GPLOT_PARSE} HAFS ${COMhafs} ${COMhafs} ${BDECKhafs} ${SYNDAThafs} 4
+    ${GPLOT_PARSE} HAFS ${WORKhafs} ${WORKhafs} ${BDECKhafs} ${SYNDAThafs} 4
     
     # Check the status files for all GPLOT components.
     GPLOT_STATUS=( `find ${DATA}/. -name "status.*" -exec cat {} \;` )
@@ -86,6 +92,10 @@ do
         ALL_COMPLETE=0
     fi
 
+    # Deliver all new and modified graphics to COMhafs/graphics
+    #cp -rup ${WORKgplot} ${COMgplot}
+    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+
     # If all are complete, then exit with success!
     # If not, submit the GPLOT wrapper again.
     if [[ ${ALL_COMPLETE} -eq 1 ]];
@@ -99,14 +109,15 @@ do
     # Call the GPLOT wrapper
     ${GPLOT_WRAPPER} ${NML} &
     
-    # Now sleep for 15 min
-    echo "sleeping 900 seconds..."
-    sleep 900s
+    # Now sleep for 10 min
+    echo "sleeping 600 seconds..."
+    sleep 600s
 
 done
 
 # Now that everything is complete, move all graphics to the $COMhafs directory.
-cp -rp ${DATA} ${COMhafs}/graphics
+#cp -rup ${WORKgplot} ${COMgplot}
+rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
 
 # Zip up and move contents to the tape archive. Local scrubbing optional.
 # This is experimental and turned OFF for now.
