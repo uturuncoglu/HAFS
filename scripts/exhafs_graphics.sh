@@ -81,7 +81,7 @@ do
     ${GPLOT_PARSE} HAFS ${COMhafs} ${COMhafs} ${BDECKhafs} ${SYNDAThafs} 4
     
     # Check the status files for all GPLOT components.
-    GPLOT_STATUS=( `find ${DATA}/. -name "status.*" -exec cat {} \;` )
+    GPLOT_STATUS=( `find ${WORKgplot} -name "status.*" -exec cat {} \;` )
     ALL_COMPLETE=1
     if [ ! -z "${GPLOT_STATUS[*]}" ];
     then
