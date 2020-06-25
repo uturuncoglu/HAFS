@@ -34,6 +34,9 @@ out_prefix=${out_prefix:-$(echo "${STORM}${STORMID}.${YMDH}" | tr '[A-Z]' '[a-z]
 GPLOT_PARSE="${GPLOThafs}/shell/parse_atcf.sh"
 GPLOT_WRAPPER="${GPLOThafs}/shell/GPLOT_wrapper.sh"
 GPLOT_ARCHIVE="${GPLOThafs}/archive/GPLOT_tarballer.sh"
+ADECKhafs=${ADECKhafs:-/lfs1/HFIP/hur-aoml/Ghassan.Alaka/adeck/NHC}
+BDECKhafs=${BDECKhafs:-/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck}
+SYNDAThafs=${SYNDAThafs:-/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS}
 
 # Setup the working directory and change into it
 COMgplot=${COMhafs:-${COMhafs}/graphics}
@@ -74,8 +77,8 @@ do
     echo "Top of loop"
 
     # Find and parse the ATCF file into an individual file for each storm
-    # Need to know the bdeck staging directory. Could use GJA's.
-    ${GPLOT_PARSE} HAFS ${WORKhafs} ${WORKhafs} ${BDECKhafs} ${SYNDAThafs} 4
+    # Do this even for HAFS regional to remove ".all" from file name.
+    ${GPLOT_PARSE} HAFS ${COMhafs} ${COMhafs} ${BDECKhafs} ${SYNDAThafs} 4
     
     # Check the status files for all GPLOT components.
     GPLOT_STATUS=( `find ${DATA}/. -name "status.*" -exec cat {} \;` )
@@ -93,8 +96,9 @@ do
     fi
 
     # Deliver all new and modified graphics to COMhafs/graphics
+    # Note: a fatal error (24) occurs when a file staged for transfer vanishes.
     #cp -rup ${WORKgplot} ${COMgplot}
-    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+    #rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
 
     # If all are complete, then exit with success!
     # If not, submit the GPLOT wrapper again.
