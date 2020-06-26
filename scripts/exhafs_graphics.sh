@@ -15,6 +15,7 @@ export MP_LABELIO=yes
 CDATE=${CDATE:-${YMDH}}
 NHRS=${NHRS:-126}
 NOUTHRS=${NOUTHRS:-3}
+machine=${machine:-jet}
 
 MPISERIAL=${MPISERIAL:-mpiserial}
 NDATE=${NDATE:-ndate}
