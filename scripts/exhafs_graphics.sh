@@ -123,8 +123,10 @@ do
 done
 
 # Now that everything is complete, move all graphics to the $COMhafs directory.
-#cp -rup ${WORKgplot} ${COMgplot}
-rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+if [ "${SENDCOM}" == "YES" ]; then
+    #cp -rup ${WORKgplot} ${COMgplot}
+    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+fi
 
 # Zip up and move contents to the tape archive. Local scrubbing optional.
 # This is experimental and turned OFF for now.
