@@ -83,7 +83,7 @@ export DATA=${WORKhafs}/graphics
 export COMhafs=${COMhafs:-/gpfs/hps3/ptmp/${USER}/${SUBEXPT}/com/${CDATE}/${STORMID}}
 
 export SENDCOM=${SENDCOM:-YES}
-export SCRUBDATA=${SCRUBDATA:-YES}
+export SCRUBDATA=${SCRUBDATA:-NO}
 
 if [ "${SCRUBDATA}" = YES ]; then
   rm -rf $DATA
