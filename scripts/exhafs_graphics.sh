@@ -24,7 +24,7 @@ GRB2INDEX=${GRB2INDEX:-grb2index}
 WORKhafs=${WORKhafs:-/gpfs/hps3/ptmp/${USER}/${SUBEXPT}/${CDATE}/${STORMID}}
 COMhafs=${COMhafs:-/gpfs/hps3/ptmp/${USER}/${SUBEXPT}/com/${CDATE}/${STORMID}}
 SENDCOM=${SENDCOM:-YES}
-CDNOSCRUB=${CDNOSCRUB}
+CDNOSCRUB="${CDNOSCRUB}/${SUBEXPT}"
 
 output_grid=${output_grid:-rotated_latlon}
 synop_gridspecs=${synop_gridspecs:-"latlon 246.6:4112:0.025 -2.4:1976:0.025"}
