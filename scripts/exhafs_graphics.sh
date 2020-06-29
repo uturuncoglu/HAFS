@@ -15,6 +15,7 @@ export MP_LABELIO=yes
 CDATE=${CDATE:-${YMDH}}
 NHRS=${NHRS:-126}
 NOUTHRS=${NOUTHRS:-3}
+machine=${machine:-jet}
 
 MPISERIAL=${MPISERIAL:-mpiserial}
 NDATE=${NDATE:-ndate}
@@ -24,6 +25,7 @@ GRB2INDEX=${GRB2INDEX:-grb2index}
 WORKhafs=${WORKhafs:-/gpfs/hps3/ptmp/${USER}/${SUBEXPT}/${CDATE}/${STORMID}}
 COMhafs=${COMhafs:-/gpfs/hps3/ptmp/${USER}/${SUBEXPT}/com/${CDATE}/${STORMID}}
 SENDCOM=${SENDCOM:-YES}
+CDNOSCRUB="${CDNOSCRUB}/${SUBEXPT}"
 
 output_grid=${output_grid:-rotated_latlon}
 synop_gridspecs=${synop_gridspecs:-"latlon 246.6:4112:0.025 -2.4:1976:0.025"}
@@ -62,7 +64,7 @@ sed -i 's/^FNL_HR =.*/FNL_HR = '"${NHRS}"'/g' ${NML}
 sed -i 's@^IDIR =.*@IDIR = '"${COMhafs}"'@g' ${NML}
 sed -i 's@^ODIR =.*@ODIR = '"${WORKgplot}"'@g' ${NML}
 sed -i 's@^ATCF1_DIR =.*@ATCF1_DIR = '"${COMhafs}"'@g' ${NML}
-sed -i 's@^ATCF2_DIR =.*@ATCF2_DIR = '"${COMhafs}"'@g' ${NML}
+sed -i 's@^ATCF2_DIR =.*@ATCF2_DIR = '"${CDNOSCRUB}"'@g' ${NML}
 sed -i 's@^ADECK_DIR =.*@ADECK_DIR = '"${ADECKhafs}"'@g' ${NML}
 sed -i 's@^BDECK_DIR =.*@BDECK_DIR = '"${BDECKhafs}"'@g' ${NML}
 sed -i 's/^SYS_ENV =.*/SYS_ENV = '"$( echo ${machine} | tr "[a-z]" "[A-Z]")"'/g' ${NML}
@@ -79,6 +81,7 @@ do
     # Find and parse the ATCF file into an individual file for each storm
     # Do this even for HAFS regional to remove ".all" from file name.
     ${GPLOT_PARSE} HAFS ${COMhafs} ${COMhafs} ${BDECKhafs} ${SYNDAThafs} 4
+    ${GPLOT_PARSE} HAFS ${CDNOSCRUB}/${SUBEXPT} ${CDNOSCRUB}/${SUBEXPT} ${BDECKhafs} ${SYNDAThafs} 0 "*${DATE}*.atcfunix.all"
     
     # Check the status files for all GPLOT components.
     GPLOT_STATUS=( `find ${WORKgplot} -name "status.*" -exec cat {} \;` )
@@ -120,8 +123,10 @@ do
 done
 
 # Now that everything is complete, move all graphics to the $COMhafs directory.
-#cp -rup ${WORKgplot} ${COMgplot}
-rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+if [ "${SENDCOM}" == "YES" ]; then
+    #cp -rup ${WORKgplot} ${COMgplot}
+    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+fi
 
 # Zip up and move contents to the tape archive. Local scrubbing optional.
 # This is experimental and turned OFF for now.
