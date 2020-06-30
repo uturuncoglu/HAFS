@@ -41,14 +41,10 @@ BDECKhafs=${BDECKhafs:-/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck}
 SYNDAThafs=${SYNDAThafs:-/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS}
 
 # Setup the working directory and change into it
-COMgplot=${COMhafs:-${COMhafs}/graphics}
-WORKgplot=${WORKgplot:-${WORKhafs}/graphics}
-if [ ! -d ${COMgplot}]; then
-    mkdir -p ${COMgplot}
-fi
-if [ ! -d ${WORKgplot}]; then
-    mkdir -p ${WORKgplot}
-fi
+COMgplot=${COMhafs:-${COMhafs}/hrdgraphic}
+WORKgplot=${WORKgplot:-${WORKhafs}/hrdgraphics}
+mkdir -p ${COMgplot}
+mkdir -p ${WORKgplot}
 cd ${WORKgplot}
 
 # Copy and edit the GPLOT namelist
@@ -116,9 +112,9 @@ do
     # Call the GPLOT wrapper
     ${GPLOT_WRAPPER} ${NML} &
     
-    # Now sleep for 10 min
-    echo "sleeping 600 seconds..."
-    sleep 600s
+    # Now sleep for 5 min
+    echo "sleeping 300 seconds..."
+    sleep 300s
 
 done
 

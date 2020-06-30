@@ -95,7 +95,7 @@ cd $DATA
 
 #####################################
 # Execute the script.
-${HOMEhafs}/scripts/exhafs_graphics.sh
+${HOMEhafs}/scripts/exhafs_hrdgraphics.sh
 export err=$?
 #####################################
 
