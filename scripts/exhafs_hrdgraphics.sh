@@ -41,7 +41,7 @@ BDECKhafs=${BDECKhafs:-/lfs1/HFIP/hur-aoml/Ghassan.Alaka/bdeck}
 SYNDAThafs=${SYNDAThafs:-/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS}
 
 # Setup the working directory and change into it
-COMgplot=${COMhafs:-${COMhafs}/hrdgraphic}
+COMgplot=${COMhafs:-${COMhafs}/hrdgraphics}
 WORKgplot=${WORKgplot:-${WORKhafs}/hrdgraphics}
 mkdir -p ${COMgplot}
 mkdir -p ${WORKgplot}
