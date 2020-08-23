@@ -96,8 +96,12 @@ do
 
     # Deliver all new and modified graphics to COMhafs/graphics
     # Note: a fatal error (24) occurs when a file staged for transfer vanishes.
-    #cp -rup ${WORKgplot} ${COMgplot}
-    #rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+    # Note: Use the script 'rsync_no_vanished.sh' to avoid the fatal error.
+    if [ "${SENDCOM}" == "YES" ]; then
+        #cp -rup ${WORKgplot} ${COMgplot}
+        #rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+        ${USHhafs}/rsync_no_vanished.sh -av --include="*/" --include="*gif" --exclude="*" ${WORKgplot}/* ${COMgplot}
+    fi
 
     # If all are complete, then exit with success!
     # If not, submit the GPLOT wrapper again.
@@ -121,7 +125,7 @@ done
 # Now that everything is complete, move all graphics to the $COMhafs directory.
 if [ "${SENDCOM}" == "YES" ]; then
     #cp -rup ${WORKgplot} ${COMgplot}
-    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
+    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot}/* ${COMgplot}
 fi
 
 # Zip up and move contents to the tape archive. Local scrubbing optional.
