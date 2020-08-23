@@ -1,13 +1,13 @@
 ## This is the system-specific configuration file for jet
 [config]
 ## Project disk area
-disk_project=hur-aoml
+disk_project=hwrfv3
 ## Project hpss tape area
-tape_project=hur-aoml
+tape_project=emc-hwrf
 ## Theia CPU account name for submitting jobs to the batch system.
-cpu_account=hur-aoml
+cpu_account=hwrfv3
 ## Archive path
-archive=hpss:/5year/HFIP/{tape_project}/{ENV[USER]}/{SUBEXPT}/{out_prefix}.tar
+archive=hpss:/NCEPDEV/{tape_project}/5year/{ENV[USER]}/{SUBEXPT}/{out_prefix}.tar
 ## Specify input sources for HISTORY mode.
 input_sources=jet_sources_{GFSVER}
 ## Specify the DataCatalog for FORECAST mode runs.
@@ -22,11 +22,11 @@ inputroot=/lfs1/HFIP/hwrf-data/hafs-input/COMGFS
 
 [dir]
 ## Non-scrubbed directory for track files, etc.  Make sure you edit this.
-CDNOSCRUB=/lfs1/HFIP/{disk_project}/{ENV[USER]}/noscrub/hafstrak
+CDNOSCRUB=/lfs4/HFIP/{disk_project}/{ENV[USER]}/noscrub/hafstrak
 ## Scrubbed directory for large work files.  Make sure you edit this.
-CDSCRUB=/lfs1/HFIP/{disk_project}/{ENV[USER]}/hafstmp
+CDSCRUB=/lfs4/HFIP/{disk_project}/{ENV[USER]}/hafstmp
 ## Save directory.  Make sure you edit this.
-CDSAVE=/lfs1/HFIP/{disk_project}/{ENV[USER]}
+CDSAVE=/lfs4/HFIP/{disk_project}/{ENV[USER]}
 ## Syndat directory for finding which cycles to run
 syndat=/lfs4/HFIP/hwrf-data/hwrf-input/SYNDAT-PLUS
 ## Input GFS data directory
