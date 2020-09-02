@@ -100,7 +100,7 @@ do
     if [ "${SENDCOM}" == "YES" ]; then
         #cp -rup ${WORKgplot} ${COMgplot}
         #rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot} ${COMgplot}
-        ${USHhafs}/rsync_no_vanished.sh -av --include="*/" --include="*gif" --exclude="*" ${WORKgplot}/* ${COMgplot}
+        ${USHhafs}/rsync_no_vanished.sh -av --include="*/" --include="*gif" --include="*ships.dat" --exclude="*" ${WORKgplot}/* ${COMgplot}
     fi
 
     # If all are complete, then exit with success!
@@ -125,7 +125,7 @@ done
 # Now that everything is complete, move all graphics to the $COMhafs directory.
 if [ "${SENDCOM}" == "YES" ]; then
     #cp -rup ${WORKgplot} ${COMgplot}
-    rsync -zav --include="*/" --include="*gif" --exclude="*" ${WORKgplot}/* ${COMgplot}
+    rsync -zav --include="*/" --include="*gif" --include="*ships.dat" --exclude="*" ${WORKgplot}/* ${COMgplot}
 fi
 
 # Zip up and move contents to the tape archive. Local scrubbing optional.
