@@ -127,8 +127,17 @@ elif [ $target = orion ]; then
 fi
 
 cd hafs_vortextracker.fd
-   make clean
-   make FC=${FC} F90=${F90} CC=${CC} -f Makefile
+if [ -d "build" ]; then
+   rm -rf build
+fi
+mkdir build
+cd build
+cmake .. -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc
+make -j 8
+make install
+
+#   make clean
+#   make FC=${FC} F90=${F90} CC=${CC} -f Makefile
 #  make install
 
 cd ../

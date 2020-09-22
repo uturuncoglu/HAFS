@@ -120,11 +120,17 @@ cd ${TOOLS_PATH}/libsrc
 ./build_libs_cmake.sh
 
 # Build the tools programs
-export TOOLS_INC=${TOOLS_PATH}/include
-export TOOLS_INCLUDE="-I${TOOLS_PATH}/include"
-export TOOLS_LIBDIR=${TOOLS_PATH}/lib
-cd ${TOOLS_PATH}/sorc
-make clean
-make
+##export TOOLS_INC=${TOOLS_PATH}/include
+##export TOOLS_INCLUDE="-I${TOOLS_PATH}/include"
+##export TOOLS_LIBDIR=${TOOLS_PATH}/lib
+##cd ${TOOLS_PATH}/sorc
+if [ -d "${TOOLS_PATH}/build" ]; then
+  rm -rf ${TOOLS_PATH}/build
+fi
+mkdir ${TOOLS_PATH}/build
+cd ${TOOLS_PATH}/build
+cmake .. -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc
+make -j 8
+make install
 
 exit
