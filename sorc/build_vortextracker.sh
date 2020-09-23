@@ -33,6 +33,13 @@ elif [ $target = hera ]; then
     export FC=ifort
     export F90=ifort
     export CC=icc
+    export hwrf_g2_inc=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities/libs/mods/g2
+    export hwrf_g2_lib=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities/libs/libg2.a
+#    export G2_INCd=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities/libs/mods/g2
+#    export G2_LIBd=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities/libs/libg2.a
+#    export g2_path_d=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities
+#    export G2_ROOT=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities
+#    export g2_ROOT=/scratch1/NCEPDEV/hwrf/save/Bin.Liu/hwrf-utilities
 
 elif [ $target = orion ]; then
 
@@ -132,8 +139,12 @@ if [ -d "build" ]; then
 fi
 mkdir build
 cd build
-cmake .. -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc
-make -j 8
+if [ $target = hera ]; then
+  cmake .. -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -Dhwrf_g2_lib=$hwrf_g2_lib -Dhwrf_g2_inc=$hwrf_g2_inc 
+else
+  cmake .. -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc
+fi
+make -j 8 VERBOSE=1
 make install
 
 #   make clean
