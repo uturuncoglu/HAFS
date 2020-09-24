@@ -1,6 +1,7 @@
 #%Module#####################################################
 ## Module file for vortextracker
 #############################################################
+module load cmake/3.16.2
 module load craype-network-aries
 module load craype-sandybridge
 module load craype/2.3.0
