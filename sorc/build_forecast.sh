@@ -26,7 +26,9 @@ FV3=$( pwd -P )/FV3
 cd tests/
 #./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y CDEPS=Y" 32bit YES NO
-./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y CDEPS=Y" 32bit NO NO
+#./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y CDEPS=Y" 32bit NO NO
+#./compile.sh "$FV3" "$target" "HYCOM=Y CMEPS=Y CDEPS=Y" 32bit NO NO
+./compile.sh "$FV3" "$target" "HYCOM=Y CMEPS=Y CDEPS=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y REPRO=Y 32BIT=Y HYCOM=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y 32BIT=Y HYCOM=Y" 32bit YES NO
 #cp -p fv3_32bit.exe ../NEMS/exe/
