@@ -27,9 +27,16 @@ cd tests/
 #./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y CDEPS=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf 32BIT=Y HYCOM=Y CMEPS=Y CDEPS=Y" 32bit NO NO
-#./compile.sh "$FV3" "$target" "HYCOM=Y CMEPS=Y CDEPS=Y" 32bit NO NO
-./compile.sh "$FV3" "$target" "HYCOM=Y CMEPS=Y CDEPS=Y" 32bit YES NO
+#./compile.sh "$FV3" "$target" "DATM=Y DOCN=Y REPRO=Y 32BIT=Y CMEPS=Y CDEPS=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y REPRO=Y 32BIT=Y HYCOM=Y" 32bit YES NO
 #./compile.sh "$FV3" "$target" "CCPP=Y 32BIT=Y HYCOM=Y" 32bit YES NO
 #cp -p fv3_32bit.exe ../NEMS/exe/
 #cp -p fv3_32bit.exe ../../../exec/hafs_forecast.exe
+
+# configuration for data components
+# 1. data atmosphere and data ocean
+#./compile.sh "$FV3" "$target" "DATM=Y DOCN=Y REPRO=Y 32BIT=Y CMEPS=Y CDEPS=Y" 32bit YES NO
+# 2. data atmosphere + active hycom
+./compile.sh "$FV3" "$target" "DATM=Y HYCOM=Y REPRO=Y 32BIT=Y CMEPS=Y CDEPS=Y" 32bit YES NO
+# 3. active FV3 and data ocean
+#./compile.sh "$FV3" "$target" "FV3=Y DOCN=Y CCPP=Y STATIC=Y SUITES=HAFS_v0_gfdlmp_nocpnsstugwd,HAFS_v0_gfdlmp_nocpnsst,HAFS_v0_gfdlmp_nocp,HAFS_v0_gfdlmp_nougwd,HAFS_v0_gfdlmp_nocpugwd,HAFS_v0_gfdlmp,HAFS_v0_hwrf_nougwd,HAFS_v0_hwrf REPRO=Y 32BIT=Y CMEPS=Y CDEPS=Y" 32bit YES NO
